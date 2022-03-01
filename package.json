@@ -1,12 +1,12 @@
 {
   "name": "orders-api",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "test": "SET NODE_ENV=test & mocha 'src/test/**/*.js'"
+    "test": "export NODE_ENV=test & mocha 'src/test/**/*.js'"
   },
   "keywords": [],
   "author": "Luke Mwila",
