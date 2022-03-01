@@ -17,8 +17,6 @@ phases:
       - aws codebuild import-source-credentials --cli-input-json file://import-source-credentials.json
       - aws codebuild list-source-credentials
       # Install nodejs application dependencies
-      - echo "Change to application directory..."
-      - cd application
       - echo "Installing dependencies..."
       - npm install 
   build:

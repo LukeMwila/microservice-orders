@@ -114,25 +114,9 @@ data aws_iam_policy_document codebuild_backend {
       "arn:aws:s3:::*"
     ]
   }
+}
 
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "codebuild:UpdateReportGroup",
-      "codebuild:ListReportsForReportGroup",
-      "codebuild:CreateReportGroup",
-      "codebuild:CreateReport",
-      "codebuild:UpdateReport",
-      "codebuild:ListReports",
-      "codebuild:DeleteReport",
-      "codebuild:ListReportGroups",
-      "codebuild:BatchPutTestCases",
-      "codebuild:ImportSourceCredentials"
-    ]
-
-    resources = [
-      "arn:aws:codebuild:eu-west-1:*"
-    ]
-  }
+resource "aws_iam_role_policy_attachment" "aws_codebuild_admin_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess"
+  role       = aws_iam_role.codebuild_backend.name
 }
