@@ -2,7 +2,7 @@ name: 'Build Docker Image & Update Application Helm Chart Values'
 on:
   push:
     branches:
-      - main
+      - fleet
 env:
   DOCKER_ID: ${{ secrets.DOCKER_ID }}
   DOCKER_PW: ${{ secrets.DOCKER_PW }}
@@ -50,15 +50,15 @@ jobs:
           echo Create temporary folder to clone the repo into...
           TEMP_FOLDER="$(mktemp -d)" 
           echo Clone the repository...
-          git clone -b main "https://LukeMwila:${ACCESS_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER} 
+          git clone -b fleet "https://LukeMwila:${ACCESS_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER} 
           cd ${TEMP_FOLDER}/application-charts/orders 
           ls
           echo Update Helm chart values-dev with new image tag
-          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.orders.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values-dev.yaml
+          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.orders.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values.yaml
           echo 'Container image tag updated in orders/values-dev.yaml' 
           cd ../../
           git config user.email "lukemwila.tech@gmail.com" 
           git config user.name "LukeMwila" 
           git add .  
           git commit -m "refactor - updated Helm chart values for dev environment with container image - $CONTAINER_IMAGE_TAG" 
-          git push -u origin main
+          git push -u origin fleet
