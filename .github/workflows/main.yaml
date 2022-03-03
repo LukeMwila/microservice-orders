@@ -54,7 +54,7 @@ jobs:
           cd ${TEMP_FOLDER}/application-charts/orders 
           ls
           echo Update Helm chart values-dev with new image tag
-          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.orders.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values.yaml
+          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values.yaml
           echo 'Container image tag updated in orders/values-dev.yaml' 
           cd ../../
           git config user.email "lukemwila.tech@gmail.com" 
