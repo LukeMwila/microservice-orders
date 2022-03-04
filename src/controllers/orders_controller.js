@@ -5,7 +5,8 @@ const get = (req, res, next) => {
       { id: '2', productId: '1b', orderFor: 'Steve Rogers' },
       { id: '3', productId: '1c', orderFor: 'Tony Stark' },
       { id: '4', productId: '1d', orderFor: 'Reed Richards' },
-      { id: '5', productId: '1d', orderFor: 'Bruce Banner' }
+      { id: '5', productId: '1d', orderFor: 'Bruce Banner' },
+      { id: '6', productId: '1d', orderFor: 'Natasha Romanoff' }
     ];
     res.status(200).send(orders);
   } catch (e) {
