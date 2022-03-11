@@ -29,6 +29,10 @@ variable "docker_secret_name" {
   type        = string
 }
 
+variable "datree_secret_name" {
+  type        = string
+}
+
 variable "branch_name" {
   description = "The repository source branch for the pipeline"
   default = "main"

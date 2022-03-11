@@ -43,6 +43,11 @@ resource aws_codebuild_project backend_build_project {
       name  = "DOCKER_PASSWORD"
       value = var.docker_hub_password
     }
+
+    environment_variable {
+      name  = "DATREE_TOKEN"
+      value = var.datree_token
+    }
   }
 
   tags = {

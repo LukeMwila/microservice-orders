@@ -33,6 +33,11 @@ variable "docker_hub_password" {
   type = string
 }
 
+variable "datree_token" {
+  description = "Datree token"
+  type = string
+}
+
 variable "branch_name" {
   default = "develop"
   type = string

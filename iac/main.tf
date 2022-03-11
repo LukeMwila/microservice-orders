@@ -16,6 +16,15 @@ data "aws_secretsmanager_secret_version" "docker_creds" {
   secret_id = data.aws_secretsmanager_secret.docker_secret.id
 }
 
+# Datree secret
+data "aws_secretsmanager_secret" "datree_secret" {
+  name = var.datree_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "datree_token" {
+  secret_id = data.aws_secretsmanager_secret.datree_secret.id
+}
+
 # Backend Pipeline
 module "backend_pipeline" {
   source = "./backend_pipeline"
@@ -29,4 +38,5 @@ module "backend_pipeline" {
   github_token = jsondecode(data.aws_secretsmanager_secret_version.github_token.secret_string)["GitHubPersonalAccessToken"]
   docker_hub_id = jsondecode(data.aws_secretsmanager_secret_version.docker_creds.secret_string)["DOCKER_ID"]
   docker_hub_password = jsondecode(data.aws_secretsmanager_secret_version.docker_creds.secret_string)["DOCKER_PW"]
+  datree_token = jsondecode(data.aws_secretsmanager_secret_version.datree_token.secret_string)["token"]
 }
