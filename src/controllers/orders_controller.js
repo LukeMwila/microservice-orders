@@ -7,7 +7,8 @@ const get = (req, res, next) => {
       { id: '4', productId: '1d', orderFor: 'Lukonde Mwila', deliveryDate: '07/04/2022', deliveryAddress: 'Somewhere in Cape Town' },
       { id: '5', productId: '1d', orderFor: 'Bruce Banner', deliveryDate: '10/04/2022', deliveryAddress: 'Avengers Base, New York' },
       { id: '6', productId: '1d', orderFor: 'Natasha Romanoff', deliveryDate: '03/04/2022', deliveryAddress: 'Avengers Base, New York' },
-      { id: '7', productId: '1d', orderFor: 'Lou', deliveryDate: '03/04/2022', deliveryAddress: 'Dev Conf Cape Town' }
+      { id: '7', productId: '1d', orderFor: 'Lukas Mwila', deliveryDate: '03/04/2022', deliveryAddress: 'Somewhere in Joburg' },
+      { id: '8', productId: '1d', orderFor: 'Lewis Mwila', deliveryDate: '03/04/2022', deliveryAddress: 'Somewhere in Joburg' }
     ];
     res.status(200).send(orders);
   } catch (e) {
