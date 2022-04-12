@@ -1,6 +1,6 @@
 {
   "name": "orders-api",
-  "version": "0.1.3",
+  "version": "0.2.2",
   "description": "",
   "main": "index.js",
   "scripts": {
