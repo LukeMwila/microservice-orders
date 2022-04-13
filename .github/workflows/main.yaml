@@ -66,7 +66,7 @@ jobs:
           cd ${TEMP_FOLDER}/application-charts/orders 
           ls
           echo Update Helm chart values-dev with new image tag
-          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.orders.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values-dev.yaml
+          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.orders.canaryRollout.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values-dev.yaml
           echo 'Container image tag updated in orders/values-dev.yaml' 
           helm dependency update .
           helm datree test . -- --values ./values-dev.yaml
