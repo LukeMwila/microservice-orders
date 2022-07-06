@@ -6,7 +6,7 @@ phases:
   install:
     runtime-versions:
       docker: 19
-      nodejs: 14
+      nodejs: 12
   pre_build:
     commands:
       # Install helm

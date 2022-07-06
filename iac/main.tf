@@ -30,7 +30,7 @@ data "aws_secretsmanager_secret" "snyk_secret" {
   name = var.snyk_secret_name
 }
 
-data "aws_secretsmanager_secret_version" "snyk_secret" {
+data "aws_secretsmanager_secret_version" "snyk_token" {
   secret_id = data.aws_secretsmanager_secret.snyk_secret.id
 }
 
