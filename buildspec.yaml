@@ -51,7 +51,7 @@ phases:
       - echo "Create temporary folder to clone the repo into..."
       - TEMP_FOLDER="$(mktemp -d)"
       - echo "Clone the repository..."
-      - git clone -b main "https://LukeMwila:${GITHUB_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER}
+      - git clone -b codebuild "https://LukeMwila:${GITHUB_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER}
       - cd ${TEMP_FOLDER}/application-charts/orders
       # Update Helm chart values-dev with new image tag
       - yq e -i '.orders.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values-dev.yaml
@@ -65,4 +65,4 @@ phases:
       - git config user.name "LukeMwila"
       - git add . 
       - git commit -m "refactor - updated Helm chart values for dev environment with container image - $CONTAINER_IMAGE_TAG"
-      - git push -u origin main
+      - git push -u origin codebuild
