@@ -25,6 +25,15 @@ data "aws_secretsmanager_secret_version" "datree_token" {
   secret_id = data.aws_secretsmanager_secret.datree_secret.id
 }
 
+# Snyk secret
+data "aws_secretsmanager_secret" "snyk_secret" {
+  name = var.snyk_secret_name
+}
+
+data "aws_secretsmanager_secret_version" "snyk_secret" {
+  secret_id = data.aws_secretsmanager_secret.snyk_secret.id
+}
+
 # Backend Pipeline
 module "backend_pipeline" {
   source = "./backend_pipeline"
@@ -39,4 +48,5 @@ module "backend_pipeline" {
   docker_hub_id = jsondecode(data.aws_secretsmanager_secret_version.docker_creds.secret_string)["DOCKER_ID"]
   docker_hub_password = jsondecode(data.aws_secretsmanager_secret_version.docker_creds.secret_string)["DOCKER_PW"]
   datree_token = jsondecode(data.aws_secretsmanager_secret_version.datree_token.secret_string)["token"]
+  snyk_token = jsondecode(data.aws_secretsmanager_secret_version.snyk_token.secret_string)["SNYK_AUTH_TOKEN"]
 }

@@ -33,6 +33,11 @@ variable "datree_secret_name" {
   type        = string
 }
 
+variable "snyk_secret_name" {
+  description = "Snyk token"
+  type = string
+}
+
 variable "branch_name" {
   description = "The repository source branch for the pipeline"
   default = "main"

@@ -1,4 +1,4 @@
-FROM node:14-alpine
+FROM node:current-buster-slim
 WORKDIR /usr/src/app
 COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
 RUN npm install 

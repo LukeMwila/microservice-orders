@@ -48,6 +48,11 @@ resource aws_codebuild_project backend_build_project {
       name  = "DATREE_TOKEN"
       value = var.datree_token
     }
+
+    environment_variable {
+      name = "THIRD_PARTY_SCANNER_TOKEN"
+      value = var.snyk_token
+    }
   }
 
   tags = {

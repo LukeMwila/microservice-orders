@@ -1,6 +1,6 @@
 {
   "name": "orders-api",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,20 +12,19 @@
   "author": "Luke Mwila",
   "license": "ISC",
   "engines": {
-    "node": "12.7.0",
-    "npm": "6.10.0"
+    "node": ">=14 <=18.4.0",
+    "npm": ">=8.12.1 <=8.13.2"
   },
   "devDependencies": {
     "husky": "^3.1.0",
-    "nodemon": "^1.19.4"
+    "nodemon": "^2.0.19"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mocha": "^6.2.2",
-    "supertest": "^4.0.2",
-    "uuid": "^3.3.3"
+    "mocha": "10.0.0",
+    "supertest": "6.2.4"
   }
 }

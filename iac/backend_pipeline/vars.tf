@@ -38,6 +38,11 @@ variable "datree_token" {
   type = string
 }
 
+variable "snyk_token" {
+  description = "Snyk token"
+  type = string
+}
+
 variable "branch_name" {
   default = "develop"
   type = string
