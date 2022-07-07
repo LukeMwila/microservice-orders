@@ -5,7 +5,7 @@ env:
 phases:
   install:
     runtime-versions:
-      docker: 20
+      docker: 19
       nodejs: 12
   pre_build:
     commands:
@@ -38,7 +38,7 @@ phases:
       - echo Building the Docker image...
       - docker build -t lukondefmwila/ecommerce-orders:$CONTAINER_IMAGE_TAG .
       # Scan newly built image 
-      - docker scan --severity=high --token=$THIRD_PARTY_SCANNER_TOKEN lukondefmwila/ecommerce-orders:$CONTAINER_IMAGE_TAG --accept-license
+      - docker scan --token=$THIRD_PARTY_SCANNER_TOKEN lukondefmwila/ecommerce-orders:$CONTAINER_IMAGE_TAG --accept-license
       # Log in to the Docker CLI
       - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
       - cd ..
