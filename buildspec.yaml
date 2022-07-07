@@ -57,8 +57,9 @@ phases:
       - echo "Clone the repository..."
       - git clone -b codebuild "https://LukeMwila:${GITHUB_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER}
       - cd ${TEMP_FOLDER}/application-charts/orders
-      # Update Helm chart values-dev with new image tag
-      - yq e -i '.orders.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values-dev.yaml
+      # Update Helm chart values-dev with new image tag digest
+      - $IMAGE_TAG_DIGEST=$(docker manifest inspect --verbose lukondefmwila/ecommerce-orders:$CONTAINER_IMAGE_TAG | jq -r '.Descriptor.digest')
+      - yq e -i '.orders.deployment.imageTag = env(IMAGE_TAG_DIGEST)' ./values-dev.yaml
       - echo 'Container image tag updated in orders/values-dev.yaml'
       # Test configuration
       - helm dependency update .
