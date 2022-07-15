@@ -120,3 +120,8 @@ resource "aws_iam_role_policy_attachment" "aws_codebuild_admin_policy" {
   policy_arn = "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess"
   role       = aws_iam_role.codebuild_backend.name
 }
+
+resource "aws_iam_role_policy_attachment" "aws_ecr_power_user_policy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
+  role       = aws_iam_role.codebuild_backend.name
+}

@@ -60,7 +60,7 @@ phases:
       - git clone -b codebuild "https://LukeMwila:${GITHUB_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER}
       - cd ${TEMP_FOLDER}/application-charts/orders
       # Update Helm chart values-dev with new immutable image tag digest
-      - IMAGE_TAG_DIGEST=$(docker manifest inspect --verbose lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG | jq -r '.Descriptor.digest')
+      - IMAGE_TAG_DIGEST=$(docker manifest inspect --verbose $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG | jq -r '.Descriptor.digest')
       - yq e -i '.orders.deployment.imageTag = env(IMAGE_TAG_DIGEST)' ./values-dev.yaml
       - echo 'Container image tag updated in orders/values-dev.yaml'
       # Test configuration
