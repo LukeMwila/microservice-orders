@@ -77,3 +77,8 @@ variable "codebuild_image" {
   default = "aws/codebuild/standard:4.0"
   type = string
 }
+
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type = number 
+}

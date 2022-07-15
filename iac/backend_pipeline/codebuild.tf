@@ -15,7 +15,7 @@ resource aws_codebuild_project backend_build_project {
 
   source {
     type      = "CODEPIPELINE"
-    buildspec = "buildspec.yaml"
+    buildspec = "ecr_buildspec.yaml"
   }
 
   environment {
@@ -23,6 +23,11 @@ resource aws_codebuild_project backend_build_project {
     image           = var.codebuild_image
     type            = "LINUX_CONTAINER"
     privileged_mode = true
+
+    environment_variable {
+      name  = "AWS_ACCOUNT_ID"
+      value = var.aws_account_id
+    }
 
     environment_variable {
       name  = "ENV"

@@ -43,7 +43,8 @@ module "backend_pipeline" {
   github_org = "LukeMwila"
   repository_name = "microservice-orders"
   branch_name = var.branch_name
-  environment     = var.environment
+  environment = var.environment
+  aws_account_id = var.aws_account_id
   github_token = jsondecode(data.aws_secretsmanager_secret_version.github_token.secret_string)["GitHubPersonalAccessToken"]
   docker_hub_id = jsondecode(data.aws_secretsmanager_secret_version.docker_creds.secret_string)["DOCKER_ID"]
   docker_hub_password = jsondecode(data.aws_secretsmanager_secret_version.docker_creds.secret_string)["DOCKER_PW"]

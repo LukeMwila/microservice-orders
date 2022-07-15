@@ -1,0 +1,75 @@
+version: 0.2
+env:
+  git-credential-helper: yes
+  shell: bash
+phases:
+  install:
+    runtime-versions:
+      docker: 19
+      nodejs: 12
+  pre_build:
+    commands:
+      # Install helm
+      - curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+      - helm version --short
+      # Install helm datree plugin
+      - helm plugin install https://github.com/datreeio/helm-datree
+      - helm datree version
+      - helm datree config set token $DATREE_TOKEN
+      # Install and configure Snyk
+      - npm install snyk -g
+      - snyk --version
+      - snyk config set api=$THIRD_PARTY_SCANNER_TOKEN
+      # Install yq
+      - wget https://github.com/mikefarah/yq/releases/download/v4.12.0/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+      - yq --version
+      # Import credentials
+      - jq -c '.token = "${GITHUB_TOKEN}"' import-source-credentials.json > tmp.$$.json && mv tmp.$$.json import-source-credentials.json
+      - aws codebuild import-source-credentials --cli-input-json file://import-source-credentials.json
+      - aws codebuild list-source-credentials
+      # Install nodejs application dependencies
+      - echo "Installing dependencies..."
+      - npm install 
+  build:
+    commands:
+      - echo Build started on `date`
+      # Run test
+      - echo Run node.js tests...
+      - npm run test
+      # Get application version 
+      - CONTAINER_IMAGE_TAG="$(node -e "console.log(require('./package.json').version);")"
+      # Build the Docker images
+      - echo Building the Docker image...
+      - docker build -t lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG .
+      # Scan newly built image 
+      - snyk test --docker --severity-threshold=critical lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG
+      # Tag image with relevant ECR format
+      - docker tag lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG
+      # Log in to ECR
+      - aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com
+      - cd ..
+  post_build:
+    commands:
+      # Push the image to Docker hub
+      - echo Pushing the Docker image to ECR...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.eu-west-1.amazonaws.com/lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG
+      # Push local changes to remote repo
+      - echo "Create temporary folder to clone the repo into..."
+      - TEMP_FOLDER="$(mktemp -d)"
+      - echo "Clone the repository..."
+      - git clone -b codebuild "https://LukeMwila:${GITHUB_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER}
+      - cd ${TEMP_FOLDER}/application-charts/orders
+      # Update Helm chart values-dev with new immutable image tag digest
+      - IMAGE_TAG_DIGEST=$(docker manifest inspect --verbose lukondemwila/ecommerce-orders:$CONTAINER_IMAGE_TAG | jq -r '.Descriptor.digest')
+      - yq e -i '.orders.deployment.imageTag = env(IMAGE_TAG_DIGEST)' ./values-dev.yaml
+      - echo 'Container image tag updated in orders/values-dev.yaml'
+      # Test configuration
+      - helm dependency update .
+      - helm datree test . -- --values ./values-dev.yaml
+      # Redirect back to root of temporary folder
+      - cd ../../
+      - git config user.email "lukemwila.tech@gmail.com"
+      - git config user.name "LukeMwila"
+      - git add . 
+      - git commit -m "refactor - updated Helm chart values for dev environment with container image - $CONTAINER_IMAGE_TAG"
+      - git push -u origin codebuild

@@ -43,3 +43,8 @@ variable "branch_name" {
   default = "main"
   type = string
 }
+
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type = number 
+}
