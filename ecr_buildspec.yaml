@@ -3,7 +3,6 @@ env:
   git-credential-helper: yes
   shell: bash
 phases:
-  install:
   pre_build:
     commands:
       # Install helm
