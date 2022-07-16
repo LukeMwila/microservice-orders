@@ -1,4 +1,4 @@
-FROM node:current-buster-slim
+FROM node:18.6.0-slim
 WORKDIR /usr/src/app
 COPY ["package.json", "npm-shrinkwrap.json*", "./"]
 RUN npm install 
