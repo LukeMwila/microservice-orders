@@ -70,8 +70,6 @@ jobs:
           echo New container image digest: $IMAGE_TAG_DIGEST
           IMAGE_TAG_DIGEST=$IMAGE_TAG_DIGEST yq e -i '.orders.deployment.imageTag = env(IMAGE_TAG_DIGEST)' ./values-dev.yaml
           echo 'Container image tag updated in orders/values-dev.yaml' 
-          helm dependency update .
-          helm datree test . -- --values ./values-dev.yaml
           cd ../../
           git config user.email "lukemwila.tech@gmail.com" 
           git config user.name "LukeMwila" 
