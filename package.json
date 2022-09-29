@@ -24,6 +24,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jasmine": "^4.2.1",
+    "npm": "^8.19.2",
     "prom-client": "^14.1.0",
     "supertest": "6.2.4"
   }
