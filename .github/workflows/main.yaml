@@ -65,8 +65,9 @@ jobs:
           git clone -b main "https://LukeMwila:${ACCESS_TOKEN}@github.com/LukeMwila/microservice-example-helm-charts.git" ${TEMP_FOLDER} 
           cd ${TEMP_FOLDER}/application-charts/orders 
           ls
-          echo Update Helm chart values-dev with new image tag
-          CONTAINER_IMAGE_TAG=$CONTAINER_IMAGE_TAG yq e -i '.orders.canaryRollout.deployment.imageTag = env(CONTAINER_IMAGE_TAG)' ./values-dev.yaml
+          echo Update Helm chart values-dev with new image tag digest
+          IMAGE_TAG_DIGEST=$(docker manifest inspect --verbose lukondefmwila/ecommerce-orders:$CONTAINER_IMAGE_TAG | jq -r '.Descriptor.digest')
+          yq e -i '.orders.deployment.imageTag = env(IMAGE_TAG_DIGEST)' ./values-dev.yaml
           echo 'Container image tag updated in orders/values-dev.yaml' 
           helm dependency update .
           helm datree test . -- --values ./values-dev.yaml
@@ -74,5 +75,5 @@ jobs:
           git config user.email "lukemwila.tech@gmail.com" 
           git config user.name "LukeMwila" 
           git add .  
-          git commit -m "refactor - updated Helm chart values for dev environment with container image - $CONTAINER_IMAGE_TAG" 
+          git commit -m "refactor - updated Helm chart values for dev environment with container image - $IMAGE_TAG_DIGEST" 
           git push -u origin main
